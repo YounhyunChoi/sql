@@ -102,3 +102,52 @@ where manager_id is not null
 group by manager_id
 having min(salary) > 6000
 order by 2 desc;
+
+select max(avg(salary))
+from employees
+group by department_id;
+
+select sum(max(avg(salary)))
+from employees
+group by department_id;
+
+select department_id, round(avg(salary))
+from employees
+group by department_id;
+
+select department_id, round(avg(salary))
+from employees;
+
+-- 과제: 2001년, 2002년, 2003년도별 입사자 수를 조회하라.
+--select substr(hire_date, 1, 4) hire_year,
+--        count(*) employee_count
+--from employees
+--where substr(hire_date, 1, 4) in ('2001', '2002', '2003')
+--group by substr(hire_date, 1, 4)
+--order by hire_year;
+
+select to_char(hire_date, 'yyyy') hire_year, count(*) emp_cnt
+from employees
+where to_char(hire_date, 'yyyy') in (2001, 2002, 2003)
+group by to_char(hire_date, 'yyyy')
+order by hire_year;
+
+select sum(decode(to_char(hire_date, 'yyyy'), '2001', 1, 0)) "2001",
+    sum(decode(to_char(hire_date, 'yyyy'), '2002', 1, 0)) "2002",
+    sum(decode(to_char(hire_date, 'yyyy'), '2003', 1, 0)) "2003"
+from employees;
+
+select count(case when hire_date like '2001%' then 1 else null end) "2001",
+    count(case when hire_date like '2002%' then 1 else null end) "2002",
+    count(case when hire_date like '2003%' then 1 else null end) "2003"
+from employees;
+
+-- 과제: 직업별, 부서별 월급합을 조회하라.
+--       부서는 20, 50, 80 이다.
+select job_id, sum(decode(to_char(department_id), '20', salary, 0)) "20",
+            sum(decode(to_char(department_id), '50', salary, 0)) "50",
+            sum(decode(to_char(department_id), '80', salary, 0)) "80"
+from employees
+where department_id in (20, 50, 80)
+group by job_id, department_id
+order by department_id;
