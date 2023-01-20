@@ -119,12 +119,11 @@ select department_id, round(avg(salary))
 from employees;
 
 -- 과제: 2001년, 2002년, 2003년도별 입사자 수를 조회하라.
---select substr(hire_date, 1, 4) hire_year,
---        count(*) employee_count
---from employees
---where substr(hire_date, 1, 4) in ('2001', '2002', '2003')
---group by substr(hire_date, 1, 4)
---order by hire_year;
+select substr(hire_date, 1, 4) hire_year, count(*) emp_cnt
+from employees
+where substr(hire_date, 1, 4) in (2001, 2002, 2003)
+group by substr(hire_date, 1, 4)
+order by hire_year;
 
 select to_char(hire_date, 'yyyy') hire_year, count(*) emp_cnt
 from employees
@@ -144,9 +143,9 @@ from employees;
 
 -- 과제: 직업별, 부서별 월급합을 조회하라.
 --       부서는 20, 50, 80 이다.
-select job_id, sum(decode(to_char(department_id), '20', salary, 0)) "20",
-            sum(decode(to_char(department_id), '50', salary, 0)) "50",
-            sum(decode(to_char(department_id), '80', salary, 0)) "80"
+select job_id, sum(decode(department_id, 20, salary)) "20",
+            sum(decode(department_id, 50, salary)) "50",
+            sum(decode(department_id, 80, salary)) "80"
 from employees
 where department_id in (20, 50, 80)
 group by job_id, department_id

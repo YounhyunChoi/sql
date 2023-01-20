@@ -41,7 +41,6 @@ select employee_id, last_name, job_id, hire_date startdate
 from employees;
 
 -- 과제: 사원들의 사번(Emp #), 이름(Name), 직업(Job), 입사일(Hire Date)을 조회하라.
-
 select employee_id "Emp #", last_name "Name", job_id "Job", hire_date "Hire Date"
 from employees;
 
