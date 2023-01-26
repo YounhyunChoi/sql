@@ -72,3 +72,72 @@ create or replace view empvu10(employee_num, employee_name, job_title) as
 insert into empvu10 values(501, 'abel', 'Sales');
 select * from empvu10;
 
+drop sequence team_teamid_seq;
+
+create sequence team_teamid_seq;
+
+select team_teamid_seq.nextval from dual;
+select team_teamid_seq.nextval from dual;
+select team_teamid_seq.currval from dual;
+
+insert into teams
+values(team_teamid_seq.nextval, 'Marketing');
+
+select * from teams
+where team_id < 5;
+
+create sequence x_xid_seq
+    start with 10
+    increment by 5
+    maxvalue 20
+    nocache
+    nocycle;
+
+select x_xid_seq.nextval from dual;
+
+-- 과제: DEPT 테이블의 DEPARTMENT_ID 칼럼의 field value 로 쓸 sequence 를 만들어라.
+--       sequence는 400이상, 1000이하로 생성한다. 10씩 증가한다.
+create sequence dept_deptid_seq
+    start with 400
+    increment by 10
+    maxvalue 1000;
+
+select dept_deptid_seq.nextval from dual;
+
+-- 과제: 위 sequence를 이용해서, DEPT 테이블에서 Education 부서를 insert 하라.
+insert into dept(department_id, department_name)
+values(dept_deptid_seq.nextval, 'Education');
+
+commit;
+
+drop index emp_lastname_idx;
+
+create index emp_lastname_idx
+on employees(last_name);
+
+select last_name, rowid
+from employees;
+
+select last_name
+from employees
+where rowid = 'AAAEAbAAEAAAADNABe';
+
+select index_name, index_type, table_owner, table_name
+from user_indexes;
+
+-- 과제: DEPT 테이블의 DEPARTMENT_NAME 에 대해 index를 만들어라.
+create index dept_deptname_idx
+on dept(department_name);
+
+drop synonym team;
+
+create synonym team
+for departments;
+
+select * from team;
+
+-- 과제: EMPLOYEES 테이블에 EMPS sysnonym 을 만들어라.
+create synonym emps
+for employees;
+
+select * from emps;
